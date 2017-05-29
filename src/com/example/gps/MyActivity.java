@@ -151,7 +151,7 @@ public class MyActivity extends Activity {
                             LocationManager.NETWORK_PROVIDER, 60 * 1000, 100, locationListenerNetwork);
                 }
                 else
-                    textView.setText(String.format("lat=%d\nlong=%d", location.getLatitude(), location.getLongitude()));
+                    textView.setText(String.format("lat=%f\nlong=%f", location.getLatitude(), location.getLongitude()));
                 break;
             }
             case R.id.button_img_choose: {
@@ -167,13 +167,13 @@ public class MyActivity extends Activity {
                         String lat_str = ((EditText)findViewById(R.id.editTextLat)).getText().toString();
                         String lng_str = ((EditText)findViewById(R.id.editTextLng)).getText().toString();
 
-                        double lat = 48.3005;
+                        double lat = 0; //48.3005;
                         try {
                             lat = Double.parseDouble(lat_str);
                         } catch (Exception e) {
 
                         }
-                        double lng =  38.0233;
+                        double lng = 0; //38.0233;
                         try {
                             Double.parseDouble(lng_str);
                         } catch (Exception e) {
@@ -225,6 +225,9 @@ public class MyActivity extends Activity {
                 filepath = file;
                 ExifInterface exifInterface = new ExifInterface(file);
                 String exif="Exif: "  + file + " \n";
+                float[] latlong = new float[2];
+                exifInterface.getLatLong(latlong);
+                exif += String.format("Coord: lat=%f; lng=%f\n", latlong[0], latlong[1]);
                 exif += "\nIMAGE_LENGTH: " + exifInterface.getAttribute(ExifInterface.TAG_IMAGE_LENGTH);
                 exif += "\nIMAGE_WIDTH: " + exifInterface.getAttribute(ExifInterface.TAG_IMAGE_WIDTH);
                 exif += "\n DATETIME: " + exifInterface.getAttribute(ExifInterface.TAG_DATETIME);
